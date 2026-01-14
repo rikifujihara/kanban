@@ -5,6 +5,7 @@ Drag and drop kanban built from scratch with custom state management and browser
 * React
 * Typescript
 * Vite
+* Tailwind
 
 ## Testing
 
