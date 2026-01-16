@@ -1,10 +1,11 @@
 import { Circle, CircleCheck } from "lucide-react";
-import type { Card, List } from "../types/kanbanTypes";
+import type { Card, List } from "@/types/kanbanTypes";
+import type { SetState } from "@/types/helperTypes";
 
 interface ListCardProps {
   card: Card;
   listId: number;
-  setLists: React.Dispatch<React.SetStateAction<List[]>>;
+  setLists: SetState<List[]>;
 }
 
 // TODO: use context to know what the current list/card is (to get ids etc)
@@ -13,7 +14,13 @@ export default function ListCard({ card, listId, setLists }: ListCardProps) {
   return (
     <div className="bg-gray-800 rounded-md p-3 flex gap-2">
       <CheckCircle onClick={handleCircleClick} isComplete={card.isComplete} />
-      <h3 className="text-gray-100 select-none">{card.title}</h3>
+      <h3
+        className={`select-none ${
+          card.isComplete ? "text-gray-400 line-through" : "text-gray-100"
+        }`}
+      >
+        {card.title}
+      </h3>
     </div>
   );
 
@@ -32,7 +39,7 @@ export default function ListCard({ card, listId, setLists }: ListCardProps) {
     listId,
     isComplete,
   }: {
-    setLists: React.Dispatch<React.SetStateAction<List[]>>;
+    setLists: SetState<List[]>;
     cardId: number;
     listId: number;
     isComplete: boolean;
