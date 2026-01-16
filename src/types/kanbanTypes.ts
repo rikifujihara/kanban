@@ -1,4 +1,11 @@
+export interface Card {
+  id: number;
+  title: string;
+  isComplete: boolean;
+}
+
 export interface List {
   id: number;
-  name: string;
+  title: string;
+  cards: Card[];
 }

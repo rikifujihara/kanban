@@ -3,7 +3,6 @@ import type { List } from "../types/kanbanTypes";
 import { useState, useRef, useEffect } from "react";
 
 interface AddAnotherListCardProps {
-  // TODO: narrow the interface so we ONLY add a list from here, not just set them to anything we want
   addList: (newList: List) => void;
 }
 
@@ -76,7 +75,7 @@ export default function AddAnotherListCard({
 
   function handleAddList() {
     if (listName !== "") {
-      addList({ id: 5, name: listName });
+      addList({ id: 5, title: listName, cards: [] });
       setListName("");
       setIsTypingListName(false);
     } else {
