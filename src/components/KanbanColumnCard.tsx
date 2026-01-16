@@ -39,30 +39,15 @@ export default function KanbanColumnCard({
 
   function addCard(card: Omit<Card, "id">) {
     setLists((prevLists) => {
-      // const newLists = [...prevLists];
-      const newLists = prevLists.map((list) => {
-        return {
-          ...list,
-          cards: [...list.cards],
-        };
-      });
-      try {
-        // newLists.forEach((list) => {
-        //   list.cards = [...list.cards];
-        // });
-        const currentList = newLists.find((l) => l.id === list.id);
-        if (!currentList) {
-          console.error("Couldn't find the right list when adding a card!");
-          return prevLists;
-        }
-        currentList.cards.push({ id: currentList.cards.length + 1, ...card });
-        return newLists;
-      } catch (e) {
-        console.error(
-          "Problem with updating the lists when adding a card: " + e
-        );
-        return prevLists;
-      }
+      const newLists = prevLists.map((l) =>
+        l.id === list.id
+          ? {
+              ...l,
+              cards: [...l.cards, { ...card, id: l.cards.length }],
+            }
+          : l
+      );
+      return newLists;
     });
   }
 }
