@@ -1,5 +1,5 @@
 # Kanban
-Drag and drop kanban built with raw React + Typescript with custom state management and browser event utilities (no context or server state libraries).
+Drag and drop kanban built with raw React + Typescript with custom state management and browser event utilities (no global state libraries or server state managers).
 
 ## Dependencies
 * React
