@@ -2,7 +2,7 @@ import { Ellipsis, Plus, X } from "lucide-react";
 import type { Card, List } from "@/types/kanbanTypes";
 import type { SetState } from "@/types/helperTypes";
 import ListCard from "./ListCard";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface KanbanColumnCardProps {
   list: List;
@@ -43,7 +43,7 @@ export default function KanbanColumnCard({
         l.id === list.id
           ? {
               ...l,
-              cards: [...l.cards, { ...card, id: l.cards.length }],
+              cards: [...l.cards, { ...card, id: l.cards.length + 1 }],
             }
           : l
       );
@@ -59,12 +59,20 @@ function AddCardButton({
 }) {
   const [title, setTitle] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isAddingCard && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isAddingCard]);
 
   return (
     <div onClick={() => setIsAddingCard(true)}>
       {isAddingCard ? (
         <div className="flex flex-col gap-2">
           <input
+            ref={inputRef}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => {
