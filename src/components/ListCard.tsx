@@ -1,18 +1,27 @@
 import { Circle, CircleCheck } from "lucide-react";
-import type { Card, List } from "@/types/kanbanTypes";
+import type { Card, List, SelectedCardInfo } from "@/types/kanbanTypes";
 import type { SetState } from "@/types/helperTypes";
 
 interface ListCardProps {
   card: Card;
   listId: number;
   setLists: SetState<List[]>;
+  setSelectedCardInfo: SetState<SelectedCardInfo>;
 }
 
 // TODO: use context to know what the current list/card is (to get ids etc)
 
-export default function ListCard({ card, listId, setLists }: ListCardProps) {
+export default function ListCard({
+  card,
+  listId,
+  setLists,
+  setSelectedCardInfo,
+}: ListCardProps) {
   return (
-    <div className="bg-gray-800 rounded-md p-3 flex gap-2">
+    <div
+      onClick={handleCardClick}
+      className="bg-gray-800 rounded-md p-3 flex gap-2 cursor-pointer"
+    >
       <CheckCircle onClick={handleCircleClick} isComplete={card.isComplete} />
       <h3
         className={`select-none ${
@@ -23,6 +32,13 @@ export default function ListCard({ card, listId, setLists }: ListCardProps) {
       </h3>
     </div>
   );
+
+  function handleCardClick() {
+    setSelectedCardInfo({
+      selectedCardId: card.id,
+      selectedCardParentListId: listId,
+    });
+  }
 
   function handleCircleClick() {
     markCompleteness({
@@ -51,7 +67,7 @@ export default function ListCard({ card, listId, setLists }: ListCardProps) {
         const list = newLists.find((list) => list.id === listId);
         if (!list) {
           console.error(
-            "can't find the list that contains the card to mark complete!"
+            "can't find the list that contains the card to mark complete!",
           );
           return newLists;
         }
@@ -79,7 +95,13 @@ function CheckCircle({
 }) {
   const circleBaseClasses = "";
   return (
-    <div className="cursor-pointer rounded-full" onClick={onClick}>
+    <div
+      className="cursor-pointer rounded-full"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+    >
       {isComplete ? (
         <CircleCheck className={`${circleBaseClasses} text-green-400`} />
       ) : (
