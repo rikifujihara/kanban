@@ -1,8 +1,9 @@
 import { useState } from "react";
-import type { Card, List, SelectedCardInfo } from "@/types/kanbanTypes";
+import type { Card, SelectedCardInfo } from "@/types/kanbanTypes";
 import AddAnotherListCard from "./AddAnotherListCard";
 import KanbanColumnCard from "./KanbanColumnCard";
 import CardDetailsModal from "./CardDetailsModal";
+import useLists from "@/hooks/useLists";
 
 export default function KanbanListsSection() {
   const [{ selectedCardParentListId, selectedCardId }, setSelectedCardInfo] =
@@ -10,23 +11,10 @@ export default function KanbanListsSection() {
       selectedCardId: null,
       selectedCardParentListId: null,
     });
-  const [lists, setLists] = useState<List[]>([
-    {
-      id: 1,
-      title: "todo",
-      cards: [
-        {
-          id: 1,
-          title: "Build Kanban",
-          isComplete: false,
-          description: "hello",
-        },
-        { id: 2, title: "Test Kanban", isComplete: true, description: "" },
-      ],
-    },
-  ]);
 
   const selectedCard = findSelectedCard();
+
+  const lists = useLists();
 
   return (
     <div className="h-full p-4 flex justify-start items-start gap-2 overflow-x-auto">
@@ -34,19 +22,15 @@ export default function KanbanListsSection() {
         return (
           <KanbanColumnCard
             setSelectedCardInfo={setSelectedCardInfo}
-            setLists={setLists}
             key={list.id}
             list={list}
           />
         );
       })}
-      <AddAnotherListCard
-        addList={(newList: List) => setLists((lists) => [...lists, newList])}
-      />
+      <AddAnotherListCard />
       {selectedCard && selectedCardParentListId && (
         <CardDetailsModal
           setSelectedCardInfo={setSelectedCardInfo}
-          setLists={setLists}
           listId={selectedCardParentListId}
           card={selectedCard}
         />

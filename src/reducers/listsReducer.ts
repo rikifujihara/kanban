@@ -1,6 +1,6 @@
 import type { Card, List } from "@/types/kanbanTypes";
 
-type ListsAction =
+export type ListsAction =
   | { type: "ADD_CARD"; payload: { card: Card; listId: number } }
   | { type: "DELETE_CARD"; payload: { card: Card; listId: number } };
 
@@ -34,3 +34,5 @@ export default function listsReducer(lists: List[], action: ListsAction) {
     }
   }
 }
+
+export type ListsReducer = typeof listsReducer;
