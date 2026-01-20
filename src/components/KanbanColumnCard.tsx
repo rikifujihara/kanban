@@ -3,18 +3,18 @@ import type { Card, List, SelectedCardInfo } from "@/types/kanbanTypes";
 import type { SetState } from "@/types/helperTypes";
 import ListCard from "./ListCard";
 import { useEffect, useRef, useState } from "react";
+import useListsDispatch from "@/hooks/useListsDispatch";
 
 interface KanbanColumnCardProps {
   list: List;
-  setLists: SetState<List[]>;
   setSelectedCardInfo: SetState<SelectedCardInfo>;
 }
 
 export default function KanbanColumnCard({
   list,
-  setLists,
   setSelectedCardInfo,
 }: KanbanColumnCardProps) {
+  const listsDispatch = useListsDispatch();
   return (
     <div className="min-w-70 bg-gray-900 p-4 rounded-lg flex flex-col gap-2">
       <div className=" flex justify-between p-3">
@@ -31,7 +31,6 @@ export default function KanbanColumnCard({
             setSelectedCardInfo={setSelectedCardInfo}
             key={card.id}
             card={card}
-            setLists={setLists}
             listId={list.id}
           />
         );
@@ -41,16 +40,12 @@ export default function KanbanColumnCard({
   );
 
   function addCard(card: Omit<Card, "id">) {
-    setLists((prevLists) => {
-      const newLists = prevLists.map((l) =>
-        l.id === list.id
-          ? {
-              ...l,
-              cards: [...l.cards, { ...card, id: l.cards.length + 1 }],
-            }
-          : l,
-      );
-      return newLists;
+    listsDispatch({
+      type: "ADD_CARD",
+      payload: {
+        card,
+        listId: list.id,
+      },
     });
   }
 }

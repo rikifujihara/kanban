@@ -1,19 +1,18 @@
 import type { SetState } from "@/types/helperTypes";
-import type { Card, List, SelectedCardInfo } from "@/types/kanbanTypes";
+import type { Card, SelectedCardInfo } from "@/types/kanbanTypes";
 import { Circle, Text, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import CardDetailsDropdown from "./CardDetailsDropdown";
+import useListsDispatch from "@/hooks/useListsDispatch";
 
 interface CardDetailModalProps {
   card: Card;
-  setLists: SetState<List[]>;
   listId: number;
   setSelectedCardInfo: SetState<SelectedCardInfo>;
 }
 
 export default function CardDetailsModal({
   card,
-  setLists,
   listId,
   setSelectedCardInfo,
 }: CardDetailModalProps) {
@@ -21,6 +20,7 @@ export default function CardDetailsModal({
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [wipDescription, setWipDescription] = useState(card.description);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const listsDispatch = useListsDispatch();
 
   useEffect(() => {
     if (isEditingDescription && textAreaRef.current) {
@@ -58,7 +58,6 @@ export default function CardDetailsModal({
             <CardDetailsDropdown
               listId={listId}
               card={card}
-              setLists={setLists}
               setSelectedCardInfo={setSelectedCardInfo}
             />
             <button
@@ -125,17 +124,9 @@ export default function CardDetailsModal({
   );
 
   function handleSaveDescription() {
-    setLists((prevLists) => {
-      return prevLists.map((l) =>
-        l.id === listId
-          ? {
-              ...l,
-              cards: l.cards.map((c) =>
-                c.id === card.id ? { ...card, description: wipDescription } : c,
-              ),
-            }
-          : l,
-      );
+    listsDispatch({
+      type: "UPDATE_CARD_DESCRIPTION",
+      payload: { listId, cardId: card.id, description: wipDescription },
     });
     setIsEditingDescription(false);
   }

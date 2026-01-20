@@ -1,38 +1,33 @@
 import { Plus, X } from "lucide-react";
-import type { List } from "../types/kanbanTypes";
 import { useState, useRef, useEffect } from "react";
+import useListsDispatch from "@/hooks/useListsDispatch";
 
-interface AddAnotherListCardProps {
-  addList: (newList: List) => void;
-}
-
-export default function AddAnotherListCard({
-  addList,
-}: AddAnotherListCardProps) {
-  const [isTypingListName, setIsTypingListName] = useState(false);
-  const [listName, setListName] = useState("");
+export default function AddAnotherListCard() {
+  const [isTypingListTitle, setIsTypingListTitle] = useState(false);
+  const [listTitle, setlistTitle] = useState("");
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const listsDispatch = useListsDispatch();
 
   useEffect(() => {
-    if (titleInputRef.current && isTypingListName) {
+    if (titleInputRef.current && isTypingListTitle) {
       titleInputRef.current.focus();
     }
-  }, [isTypingListName]);
+  }, [isTypingListTitle]);
 
   return (
     <div
       onClick={handleClick}
       className={`rounded-lg  p-4 min-w-70 h-auto flex gap-2 hover:cursor-pointer  ${
-        isTypingListName
+        isTypingListTitle
           ? "bg-gray-900"
           : "hover:bg-gray-400 active:bg-gray-500 bg-gray-300"
       }`}
     >
-      {isTypingListName ? (
+      {isTypingListTitle ? (
         <div className="flex flex-col gap-3">
           <input
-            value={listName}
-            onChange={(e) => setListName(e.target.value)}
+            value={listTitle}
+            onChange={(e) => setlistTitle(e.target.value)}
             placeholder="Enter a list name..."
             ref={titleInputRef}
             onKeyDown={(e) => {
@@ -66,18 +61,18 @@ export default function AddAnotherListCard({
   );
 
   function handleClick() {
-    setIsTypingListName(true);
+    setIsTypingListTitle(true);
   }
 
   function handleBlur() {
-    setIsTypingListName(false);
+    setIsTypingListTitle(false);
   }
 
   function handleAddList() {
-    if (listName !== "") {
-      addList({ id: 5, title: listName, cards: [] });
-      setListName("");
-      setIsTypingListName(false);
+    if (listTitle !== "") {
+      listsDispatch({ type: "ADD_LIST", payload: { title: listTitle } });
+      setlistTitle("");
+      setIsTypingListTitle(false);
     } else {
       titleInputRef.current?.focus();
     }

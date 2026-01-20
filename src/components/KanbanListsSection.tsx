@@ -11,10 +11,8 @@ export default function KanbanListsSection() {
       selectedCardId: null,
       selectedCardParentListId: null,
     });
-
-  const selectedCard = findSelectedCard();
-
   const lists = useLists();
+  const selectedCard = findSelectedCard();
 
   return (
     <div className="h-full p-4 flex justify-start items-start gap-2 overflow-x-auto">

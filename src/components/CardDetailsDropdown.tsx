@@ -1,9 +1,9 @@
 import { MODAL_ACTION_TYPES } from "@/constants/kanbanConstants";
+import useListsDispatch from "@/hooks/useListsDispatch";
 import type { SetState } from "@/types/helperTypes";
 import type {
   ActiveModalAction,
   Card,
-  List,
   SelectedCardInfo,
 } from "@/types/kanbanTypes";
 import { ArrowRight, ChevronLeft, Ellipsis, Trash, X } from "lucide-react";
@@ -13,19 +13,17 @@ interface CardDetailsDropdownProps {
   listId: number;
   card: Card;
   setSelectedCardInfo: SetState<SelectedCardInfo>;
-  setLists: SetState<List[]>;
-  lists: List[];
 }
 
 export default function CardDetailsDropdown({
   listId,
   card,
   setSelectedCardInfo,
-  setLists,
 }: CardDetailsDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeModalAction, setActiveModalAction] =
     useState<ActiveModalAction>(null);
+  const listsDispatch = useListsDispatch();
   return (
     <div className="relative">
       {/* dropdown trigger */}
@@ -102,12 +100,9 @@ export default function CardDetailsDropdown({
   );
 
   function handleDeleteCard() {
-    setLists((prevLists) => {
-      return prevLists.map((l) => {
-        return l.id === listId
-          ? { ...l, cards: l.cards.filter((c) => c.id !== card.id) }
-          : l;
-      });
+    listsDispatch({
+      type: "DELETE_CARD",
+      payload: { cardId: card.id, listId },
     });
     setSelectedCardInfo({
       selectedCardId: null,
