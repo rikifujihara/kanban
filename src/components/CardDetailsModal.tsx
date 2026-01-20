@@ -1,7 +1,8 @@
 import type { SetState } from "@/types/helperTypes";
 import type { Card, List, SelectedCardInfo } from "@/types/kanbanTypes";
-import { Circle, Ellipsis, Text, X } from "lucide-react";
+import { Circle, Text, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import CardDetailsDropdown from "./CardDetailsDropdown";
 
 interface CardDetailModalProps {
   card: Card;
@@ -54,9 +55,12 @@ export default function CardDetailsModal({
             <h4 className="text-gray-50 text-4xl font-semibold">{title}</h4>
           </div>
           <div className="flex gap-5">
-            <button className=" hover:bg-gray-700 rounded-full p-3">
-              <Ellipsis className="text-gray-200" />
-            </button>
+            <CardDetailsDropdown
+              listId={listId}
+              card={card}
+              setLists={setLists}
+              setSelectedCardInfo={setSelectedCardInfo}
+            />
             <button
               onClick={() => {
                 setSelectedCardInfo({
