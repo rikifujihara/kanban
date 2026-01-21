@@ -1,22 +1,19 @@
 import { Circle, CircleCheck } from "lucide-react";
-import type { Card, SelectedCardInfo } from "@/types/kanbanTypes";
-import type { SetState } from "@/types/helperTypes";
+import type { Card } from "@/types/kanbanTypes";
 import useListsDispatch from "@/hooks/useListsDispatch";
+import useSetSelectedCardInfo from "@/hooks/useSetSelectedCardInfo";
 
 interface ListCardProps {
   card: Card;
   listId: number;
-  setSelectedCardInfo: SetState<SelectedCardInfo>;
 }
 
 // TODO: use context to know what the current list/card is (to get ids etc)
 
-export default function ListCard({
-  card,
-  listId,
-  setSelectedCardInfo,
-}: ListCardProps) {
+export default function ListCard({ card, listId }: ListCardProps) {
   const listsDispatch = useListsDispatch();
+  const setSelectedCardInfo = useSetSelectedCardInfo();
+
   return (
     <div
       onClick={handleCardClick}

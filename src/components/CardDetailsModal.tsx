@@ -1,26 +1,25 @@
-import type { SetState } from "@/types/helperTypes";
-import type { Card, SelectedCardInfo } from "@/types/kanbanTypes";
+import type { Card } from "@/types/kanbanTypes";
 import { Circle, Text, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import CardDetailsDropdown from "./CardDetailsDropdown";
 import useListsDispatch from "@/hooks/useListsDispatch";
+import useSetSelectedCardInfo from "@/hooks/useSetSelectedCardInfo";
 
 interface CardDetailModalProps {
   card: Card;
   listId: number;
-  setSelectedCardInfo: SetState<SelectedCardInfo>;
 }
 
 export default function CardDetailsModal({
   card,
   listId,
-  setSelectedCardInfo,
 }: CardDetailModalProps) {
   const { description, title } = card;
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [wipDescription, setWipDescription] = useState(card.description);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const listsDispatch = useListsDispatch();
+  const setSelectedCardInfo = useSetSelectedCardInfo();
 
   useEffect(() => {
     if (isEditingDescription && textAreaRef.current) {

@@ -1,34 +1,23 @@
-import { useState } from "react";
-import type { Card, SelectedCardInfo } from "@/types/kanbanTypes";
+import type { Card } from "@/types/kanbanTypes";
 import AddAnotherListCard from "./AddAnotherListCard";
 import KanbanColumnCard from "./KanbanColumnCard";
 import CardDetailsModal from "./CardDetailsModal";
 import useLists from "@/hooks/useLists";
+import useSelectedCardInfo from "@/hooks/useSelectedCardInfo";
 
 export default function KanbanListsSection() {
-  const [{ selectedCardParentListId, selectedCardId }, setSelectedCardInfo] =
-    useState<SelectedCardInfo>({
-      selectedCardId: null,
-      selectedCardParentListId: null,
-    });
   const lists = useLists();
+  const { selectedCardId, selectedCardParentListId } = useSelectedCardInfo();
   const selectedCard = findSelectedCard();
 
   return (
     <div className="h-full p-4 flex justify-start items-start gap-2 overflow-x-auto">
       {lists.map((list) => {
-        return (
-          <KanbanColumnCard
-            setSelectedCardInfo={setSelectedCardInfo}
-            key={list.id}
-            list={list}
-          />
-        );
+        return <KanbanColumnCard key={list.id} list={list} />;
       })}
       <AddAnotherListCard />
       {selectedCard && selectedCardParentListId && (
         <CardDetailsModal
-          setSelectedCardInfo={setSelectedCardInfo}
           listId={selectedCardParentListId}
           card={selectedCard}
         />

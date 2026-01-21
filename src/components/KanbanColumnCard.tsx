@@ -1,20 +1,17 @@
 import { Ellipsis, Plus, X } from "lucide-react";
-import type { Card, List, SelectedCardInfo } from "@/types/kanbanTypes";
-import type { SetState } from "@/types/helperTypes";
+import type { Card, List } from "@/types/kanbanTypes";
 import ListCard from "./ListCard";
 import { useEffect, useRef, useState } from "react";
 import useListsDispatch from "@/hooks/useListsDispatch";
+import ListOptionsDropdown from "./ListOptionsDropdown";
 
 interface KanbanColumnCardProps {
   list: List;
-  setSelectedCardInfo: SetState<SelectedCardInfo>;
 }
 
-export default function KanbanColumnCard({
-  list,
-  setSelectedCardInfo,
-}: KanbanColumnCardProps) {
+export default function KanbanColumnCard({ list }: KanbanColumnCardProps) {
   const listsDispatch = useListsDispatch();
+  const [isListOptionsOpen, setIsListOptionsOpen] = useState(false);
   return (
     <div className="min-w-70 bg-gray-900 p-4 rounded-lg flex flex-col gap-2">
       <div className=" flex justify-between p-3">
@@ -24,16 +21,10 @@ export default function KanbanColumnCard({
         <button className="text-white">
           <Ellipsis />
         </button>
+        <ListOptionsDropdown />
       </div>
       {list.cards.map((card) => {
-        return (
-          <ListCard
-            setSelectedCardInfo={setSelectedCardInfo}
-            key={card.id}
-            card={card}
-            listId={list.id}
-          />
-        );
+        return <ListCard key={card.id} card={card} listId={list.id} />;
       })}
       <AddCardButton addCard={addCard} />
     </div>
