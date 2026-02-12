@@ -5,6 +5,7 @@ export async function addColumn(user: UserEvent, title: string) {
   await user.click(screen.getByRole("button", { name: /add column/i }));
   await user.type(screen.getByLabelText(/column name/i), title);
   await user.click(screen.getByRole("button", { name: /create column/i }));
+  return screen.getByRole("region", { name: title });
 }
 
 export async function addCard(

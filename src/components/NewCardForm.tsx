@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "./Button";
 
 export default function NewCardForm({
@@ -13,15 +13,23 @@ export default function NewCardForm({
 }) {
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isAddingCard) {
+      inputRef.current?.focus();
+    }
+  }, [isAddingCard]);
+
   return (
     <>
-      {" "}
       {isAddingCard ? (
         <form onSubmit={handleSubmit}>
           <label className="sr-only" htmlFor={`new-card-name-${columnTitle}`}>
             Card name
           </label>
           <input
+            ref={inputRef}
             id={`new-card-name-${columnTitle}`}
             type="text"
             value={cardTitle}
@@ -43,6 +51,7 @@ export default function NewCardForm({
       )}
     </>
   );
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     addCard(cardTitle, columnId);
