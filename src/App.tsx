@@ -9,3 +9,7 @@ export default function App() {
     </div>
   );
 }
+
+// TODO:
+
+// extract reusable component for NewColumnForm and NewCardForm

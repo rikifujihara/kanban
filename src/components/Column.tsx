@@ -21,6 +21,7 @@ export default function Column({
         </div>
       ))}
       <NewCardForm
+        cards={column.cards}
         columnId={column.id}
         addCard={addCard}
         columnTitle={column.title}

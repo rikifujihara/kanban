@@ -1,19 +1,26 @@
 import { Plus } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "./Button";
+import type { CardData } from "../types/kanbanTypes";
 
 export default function NewCardForm({
+  cards,
   columnTitle,
   columnId,
   addCard,
 }: {
   columnTitle: string;
   columnId: string;
+  cards: CardData[];
   addCard: (title: string, columnId: string) => void;
 }) {
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const error = isCardNameUnique(cardTitle)
+    ? ""
+    : "This card name already exists";
 
   useEffect(() => {
     if (isAddingCard) {
@@ -34,7 +41,18 @@ export default function NewCardForm({
             type="text"
             value={cardTitle}
             onChange={(e) => setCardTitle(e.target.value)}
+            aria-invalid={error !== ""}
+            aria-describedby={error ? "card-name-error" : undefined}
           />
+          {error && (
+            <p
+              id="card-name-error-message"
+              role="alert"
+              className="text-gray-100"
+            >
+              {error}
+            </p>
+          )}
           <Button variant="primary" type="submit">
             Add card
           </Button>
@@ -54,8 +72,18 @@ export default function NewCardForm({
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (error !== "") return;
+    if (cardTitle.trim() === "") {
+      inputRef.current?.focus();
+      return;
+    }
     addCard(cardTitle, columnId);
     setIsAddingCard(false);
     setCardTitle("");
+  }
+
+  function isCardNameUnique(name: string) {
+    const cardNames = cards.map((c) => c.title);
+    return !cardNames.includes(name);
   }
 }
