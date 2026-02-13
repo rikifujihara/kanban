@@ -1,14 +1,20 @@
 import { Plus, X } from "lucide-react";
 import Button from "./Button";
 import { useEffect, useRef, useState } from "react";
+import type { ColumnData } from "../types/kanbanTypes";
 
 interface NewColumnFormProps {
   addColumn: (newTitle: string) => void;
+  columns: ColumnData[];
 }
 
-export default function NewColumnForm({ addColumn }: NewColumnFormProps) {
+export default function NewColumnForm({
+  addColumn,
+  columns,
+}: NewColumnFormProps) {
   const [isAddingColumn, setAddingColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
+  const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -27,12 +33,18 @@ export default function NewColumnForm({ addColumn }: NewColumnFormProps) {
           <input
             placeholder="Enter a column name..."
             ref={inputRef}
+            aria-invalid={error !== ""}
             className="bg-gray-500 p-1 rounded-md"
             value={newColumnTitle}
             onChange={(e) => setNewColumnTitle(e.target.value)}
             id="column-name"
             type="text"
           ></input>
+          {error && (
+            <p role="alert" className="text-gray-200">
+              {error}
+            </p>
+          )}
           <div className="flex gap-2">
             <Button type="submit">Create Column</Button>
             <Button
@@ -62,6 +74,10 @@ export default function NewColumnForm({ addColumn }: NewColumnFormProps) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (newColumnTitle.trim() === "") return;
+    if (!isUniqueColumnName(newColumnTitle)) {
+      setError("This column name already exists.");
+      return;
+    }
     addColumn(newColumnTitle);
     setAddingColumn(false);
     setNewColumnTitle("");
@@ -70,5 +86,10 @@ export default function NewColumnForm({ addColumn }: NewColumnFormProps) {
   function handleCancel() {
     setAddingColumn(false);
     setNewColumnTitle("");
+  }
+
+  function isUniqueColumnName(name: string) {
+    const columnNames = columns.map((c) => c.title);
+    return !columnNames.includes(name);
   }
 }

@@ -15,7 +15,7 @@ export default function Board({
       {columns.map((column) => (
         <Column addCard={addCard} key={column.id} column={column} />
       ))}
-      <NewColumnForm addColumn={addColumn} />
+      <NewColumnForm columns={columns} addColumn={addColumn} />
     </div>
   );
 
