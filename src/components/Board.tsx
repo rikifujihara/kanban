@@ -11,7 +11,7 @@ export default function Board({
   const [columns, setColumns] = useState<ColumnData[]>(initialColumns);
 
   return (
-    <div className="flex gap-2 p-2 overflow-x-auto">
+    <div className="flex gap-2 items-start p-2 overflow-x-auto h-full">
       {columns.map((column) => (
         <Column addCard={addCard} key={column.id} column={column} />
       ))}
