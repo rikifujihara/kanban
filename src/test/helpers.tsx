@@ -17,4 +17,5 @@ export async function addCard(
   await user.click(within(column).getByRole("button", { name: /add card/i }));
   await user.type(within(column).getByLabelText(/card name/i), cardTitle);
   await user.click(within(column).getByRole("button", { name: /add card/i }));
+  return screen.getByRole("article", { name: cardTitle });
 }

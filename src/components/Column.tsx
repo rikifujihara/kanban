@@ -1,4 +1,5 @@
 import type { ColumnData } from "../types/kanbanTypes";
+import Card from "./Card";
 import NewCardForm from "./NewCardForm";
 
 export default function Column({
@@ -12,13 +13,11 @@ export default function Column({
     <div
       role="region"
       aria-label={column.title}
-      className="flex flex-col gap-2 bg-gray-800 rounded-lg p-3 text-gray-100"
+      className="flex flex-col gap-2 bg-gray-950 rounded-lg p-3 text-gray-100"
     >
       <h2>{column.title}</h2>
       {column.cards.map((card) => (
-        <div key={card.id}>
-          <h3>{card.title}</h3>
-        </div>
+        <Card card={card} key={card.id} />
       ))}
       <NewCardForm
         cards={column.cards}

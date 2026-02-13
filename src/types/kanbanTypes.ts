@@ -1,6 +1,7 @@
 export interface CardData {
   id: string;
   title: string;
+  isComplete: boolean;
 }
 
 export interface ColumnData {
