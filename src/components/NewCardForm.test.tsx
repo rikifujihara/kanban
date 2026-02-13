@@ -27,4 +27,10 @@ test("Does not allow duplicate card names within column", async () => {
 
   const cards = within(column).getAllByText("Walk the dog");
   expect(cards.length).toBe(1);
+
+  const input = within(column).getByLabelText(/card name/i);
+  expect(input).toBeInvalid();
+  expect(screen.getByRole("alert")).toHaveTextContent(
+    /card name already exists/i,
+  );
 });
