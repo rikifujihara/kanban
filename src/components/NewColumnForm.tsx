@@ -14,8 +14,11 @@ export default function NewColumnForm({
 }: NewColumnFormProps) {
   const [isAddingColumn, setAddingColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
-  const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const error = !isUniqueColumnName(newColumnTitle)
+    ? "This column name already exists"
+    : "";
 
   useEffect(() => {
     if (isAddingColumn) {
@@ -34,6 +37,7 @@ export default function NewColumnForm({
             placeholder="Enter a column name..."
             ref={inputRef}
             aria-invalid={error !== ""}
+            aria-described-by={error ? "column-name-error" : undefined}
             className="bg-gray-500 p-1 rounded-md"
             value={newColumnTitle}
             onChange={(e) => setNewColumnTitle(e.target.value)}
@@ -41,7 +45,7 @@ export default function NewColumnForm({
             type="text"
           ></input>
           {error && (
-            <p role="alert" className="text-gray-200">
+            <p id="column-name-error" role="alert" className="text-gray-200">
               {error}
             </p>
           )}
@@ -74,8 +78,7 @@ export default function NewColumnForm({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (newColumnTitle.trim() === "") return;
-    if (!isUniqueColumnName(newColumnTitle)) {
-      setError("This column name already exists.");
+    if (error !== "") {
       return;
     }
     addColumn(newColumnTitle);
