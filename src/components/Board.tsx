@@ -36,7 +36,7 @@ export default function Board({
               ...col,
               cards: [
                 ...col.cards,
-                { id: String(col.cards.length + 1), title },
+                { id: String(col.cards.length + 1), title, isComplete: false },
               ],
             }
           : col,
