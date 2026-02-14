@@ -1,8 +1,8 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
-import Board from "./Board";
-import { addCard, addColumn } from "../test/helpers";
+import Board from "@/components/Board";
+import { addCard, addColumn } from "@/test/helpers";
 
 test("Focuses input when clicking add card button", async () => {
   const user = userEvent.setup();

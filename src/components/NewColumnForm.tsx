@@ -1,7 +1,7 @@
 import { Plus, X } from "lucide-react";
-import Button from "./Button";
+import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
-import type { ColumnData } from "../types/kanbanTypes";
+import type { ColumnData } from "@/types/kanbanTypes";
 
 interface NewColumnFormProps {
   addColumn: (newTitle: string) => void;

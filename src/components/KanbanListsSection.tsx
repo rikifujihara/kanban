@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { List } from "../types/kanbanTypes";
-import AddAnotherListCard from "./AddAnotherListCard";
-import KanbanListCard from "./KanbanListCard";
+import type { List } from "@/types/kanbanTypes";
+import AddAnotherListCard from "@/components/AddAnotherListCard";
+import KanbanListCard from "@/components/KanbanListCard";
 
 export default function KanbanListsSection() {
   const [lists, setLists] = useState<List[]>([{ id: 1, name: "todo" }]);

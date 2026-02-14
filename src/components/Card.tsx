@@ -1,4 +1,4 @@
-import type { CardData } from "../types/kanbanTypes";
+import type { CardData } from "@/types/kanbanTypes";
 
 export default function Card({ card }: { card: CardData }) {
   return (

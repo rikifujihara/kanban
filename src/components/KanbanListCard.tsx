@@ -1,5 +1,5 @@
 import { Ellipsis, Plus } from "lucide-react";
-import type { List } from "../types/kanbanTypes";
+import type { List } from "@/types/kanbanTypes";
 
 interface KanbanListCardProps {
   list: List;

@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import Button from "./Button";
-import type { CardData } from "../types/kanbanTypes";
+import Button from "@/components/Button";
+import type { CardData } from "@/types/kanbanTypes";
 
 export default function NewCardForm({
   cards,

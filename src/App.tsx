@@ -1,5 +1,5 @@
-import Board from "./components/Board";
-import HeaderSection from "./components/HeaderSection";
+import Board from "@/components/Board";
+import HeaderSection from "@/components/HeaderSection";
 
 export default function App() {
   return (

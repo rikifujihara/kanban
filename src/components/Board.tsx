@@ -1,6 +1,6 @@
 import { useState } from "react";
-import NewColumnForm from "./NewColumnForm";
-import type { ColumnData } from "../types/kanbanTypes";
+import NewColumnForm from "@/components/NewColumnForm";
+import type { ColumnData } from "@/types/kanbanTypes";
 import Column from "@/components/Column";
 
 export default function Board({

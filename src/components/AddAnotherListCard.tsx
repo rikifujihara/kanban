@@ -1,5 +1,5 @@
 import { Plus, X } from "lucide-react";
-import type { List } from "../types/kanbanTypes";
+import type { List } from "@/types/kanbanTypes";
 import { useState, useRef, useEffect } from "react";
 
 interface AddAnotherListCardProps {
