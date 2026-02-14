@@ -1,20 +1,16 @@
 import { Plus, X } from "lucide-react";
 import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
-import type { ColumnData } from "@/types/kanbanTypes";
+import useBoard from "@/hooks/useBoard";
+import useBoardDispatch from "@/hooks/useBoardDispatch";
 
-interface NewColumnFormProps {
-  addColumn: (newTitle: string) => void;
-  columns: ColumnData[];
-}
-
-export default function NewColumnForm({
-  addColumn,
-  columns,
-}: NewColumnFormProps) {
+export default function NewColumnForm() {
   const [isAddingColumn, setAddingColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { columns } = useBoard();
+  const dispatch = useBoardDispatch();
 
   const error = !isUniqueColumnName(newColumnTitle)
     ? "This column name already exists"
@@ -81,7 +77,9 @@ export default function NewColumnForm({
     if (error !== "") {
       return;
     }
-    addColumn(newColumnTitle);
+    // addColumn(newColumnTitle);
+    dispatch({ type: "ADD_COLUMN", payload: { title: newColumnTitle.trim() } });
+
     setAddingColumn(false);
     setNewColumnTitle("");
   }

@@ -2,13 +2,7 @@ import type { ColumnData } from "@/types/kanbanTypes";
 import Card from "@/components/Card";
 import NewCardForm from "@/components/NewCardForm";
 
-export default function Column({
-  column,
-  addCard,
-}: {
-  column: ColumnData;
-  addCard: (title: string, columnId: string) => void;
-}) {
+export default function Column({ column }: { column: ColumnData }) {
   return (
     <div
       role="region"
@@ -22,7 +16,6 @@ export default function Column({
       <NewCardForm
         cards={column.cards}
         columnId={column.id}
-        addCard={addCard}
         columnTitle={column.title}
       />
     </div>

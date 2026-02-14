@@ -10,7 +10,7 @@ export default function App() {
           {
             id: "1",
             title: "Todo",
-            cards: [{ id: "1", title: "Walk the dog" }],
+            cards: [{ id: "1", title: "Walk the dog", isComplete: false }],
           },
           { id: "2", title: "Doing", cards: [] },
           { id: "3", title: "Done", cards: [] },
