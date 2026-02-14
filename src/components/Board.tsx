@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NewColumnForm from "./NewColumnForm";
 import type { ColumnData } from "../types/kanbanTypes";
-import Column from "./Column";
+import Column from "@/components/Column";
 
 export default function Board({
   initialColumns = [],

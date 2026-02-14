@@ -1,6 +1,6 @@
 import type { ColumnData } from "../types/kanbanTypes";
 import Card from "./Card";
-import NewCardForm from "./NewCardForm";
+import NewCardForm from "@/components/NewCardForm";
 
 export default function Column({
   column,
