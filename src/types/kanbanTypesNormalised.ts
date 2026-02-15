@@ -27,9 +27,15 @@ type ChecklistItems = {
   byId: Record<string, ChecklistItemData>;
   allIds: string[];
 };
-type Cards = { byId: Record<string, CardData>; allIds: string[] };
-type Columns = { byId: Record<string, ColumnData>; allIds: string[] };
-type Boards = { byId: Record<string, BoardData>; allIds: string[] };
+
+type NormalizedEntity<T> = {
+  allIds: string[];
+  byId: Record<string, T>;
+};
+
+type Cards = NormalizedEntity<CardData>;
+type Columns = NormalizedEntity<ColumnData>;
+type Boards = NormalizedEntity<BoardData>;
 
 export interface KanbanEntity {
   id: string;
@@ -71,5 +77,3 @@ export const kanban: KanbanEntity = {
     allIds: ["1"],
   },
 };
-
-export type KanbanNormalisedData = typeof kanban;
