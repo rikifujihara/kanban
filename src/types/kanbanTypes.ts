@@ -15,3 +15,8 @@ export interface BoardData {
   title: string;
   columns: ColumnData[];
 }
+
+export interface KanbanData {
+  id: string;
+  boards: BoardData[];
+}

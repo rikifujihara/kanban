@@ -1,18 +1,20 @@
-import type { ColumnData } from "@/types/kanbanTypes";
+import Column from "@/components/Column";
+import NewColumnForm from "@/components/NewColumnForm";
+import useKanban from "@/hooks/useKanban";
 
-import BoardProvider from "@/providers/BoardProvider";
-import BoardContent from "@/components/BoardContent";
-
-export default function Board({
-  initialColumns = [],
-}: {
-  initialColumns?: ColumnData[];
-}) {
+export default function Board({ boardId }: { boardId: string }) {
   // const [columns, setColumns] = useState<ColumnData[]>(initialColumns);
+  const { boards } = useKanban();
+  const board = boards.find((b) => b.id === boardId);
 
-  return (
-    <BoardProvider initialColumns={initialColumns}>
-      <BoardContent />
-    </BoardProvider>
+  return board ? (
+    <div className="flex gap-2 items-start p-2 overflow-x-auto h-full">
+      {board.columns.map((column) => (
+        <Column key={column.id} column={column} />
+      ))}
+      <NewColumnForm />
+    </div>
+  ) : (
+    <div>Board not found!</div>
   );
 }
