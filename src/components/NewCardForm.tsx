@@ -2,21 +2,23 @@ import { Plus } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "@/components/Button";
 import type { CardData } from "@/types/kanbanTypes";
-import useBoardDispatch from "@/hooks/useBoardDispatch";
+import useKanbanDispatch from "@/hooks/useKanbanDispatch";
 
 export default function NewCardForm({
   cards,
   columnTitle,
   columnId,
+  boardId,
 }: {
   columnTitle: string;
   columnId: string;
+  boardId: string;
   cards: CardData[];
 }) {
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
 
-  const dispatch = useBoardDispatch();
+  const dispatch = useKanbanDispatch();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -80,7 +82,7 @@ export default function NewCardForm({
       return;
     }
 
-    dispatch({ type: "ADD_CARD", payload: { title: cardTitle, columnId } });
+    dispatch({ type: "ADD_CARD", payload: { boardId, cardTitle, columnId } });
     setIsAddingCard(false);
     setCardTitle("");
   }

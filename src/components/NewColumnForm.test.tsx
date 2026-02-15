@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
-import Board from "@/components/Board";
 import { addColumn } from "@/test/helpers";
+import App from "@/App";
 
 test("Focuses the column name input when the add column button is clicked", async () => {
   const user = userEvent.setup();
-  render(<Board />);
+  render(<App />);
 
   await user.click(screen.getByRole("button", { name: /add column/i }));
   const titleInput = screen.getByLabelText(/column name/i);
@@ -15,7 +15,7 @@ test("Focuses the column name input when the add column button is clicked", asyn
 
 test("Does not submit unless a title has been entered", async () => {
   const user = userEvent.setup();
-  render(<Board />);
+  render(<App />);
 
   await user.click(screen.getByRole("button", { name: /add column/i }));
   const createColumnButton = screen.getByRole("button", {
@@ -27,7 +27,7 @@ test("Does not submit unless a title has been entered", async () => {
 
 test("Cancel button hides the text input", async () => {
   const user = userEvent.setup();
-  render(<Board />);
+  render(<App />);
 
   await user.click(screen.getByRole("button", { name: /add column/i }));
 
@@ -40,7 +40,7 @@ test("Cancel button hides the text input", async () => {
 
 test("Does not allow duplicate column names", async () => {
   const user = userEvent.setup();
-  render(<Board />);
+  render(<App />);
 
   const firstColumn = await addColumn(user, "Todo");
   expect(firstColumn).toBeInTheDocument();

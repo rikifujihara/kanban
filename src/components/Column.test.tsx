@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
-import Board from "@/components/Board";
+import App from "@/App";
 import { addColumn, addCard } from "@/test/helpers";
 
 test("Allows adding new card", async () => {
   const user = userEvent.setup();
-  render(<Board />);
+  render(<App />);
   await addColumn(user, "Todo");
   await addColumn(user, "Done");
   await addCard(user, "Todo", "Walk dog");

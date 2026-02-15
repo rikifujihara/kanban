@@ -1,12 +1,12 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
-import Board from "@/components/Board";
 import { addCard, addColumn } from "@/test/helpers";
+import App from "@/App";
 
 test("Focuses input when clicking add card button", async () => {
   const user = userEvent.setup();
-  render(<Board />);
+  render(<App />);
 
   const column = await addColumn(user, "Todo");
   await user.click(within(column).getByRole("button", { name: /add card/i }));
@@ -17,7 +17,7 @@ test("Focuses input when clicking add card button", async () => {
 
 test("Does not allow duplicate card names within column", async () => {
   const user = userEvent.setup();
-  render(<Board />);
+  render(<App />);
 
   const column = await addColumn(user, "Todo");
   await addCard(user, "Todo", "Walk the dog");

@@ -1,16 +1,16 @@
 import { Plus, X } from "lucide-react";
 import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
-import useBoard from "@/hooks/useBoard";
-import useBoardDispatch from "@/hooks/useBoardDispatch";
+import useKanbanDispatch from "@/hooks/useKanbanDispatch";
+import useKanban from "@/hooks/useKanban";
 
-export default function NewColumnForm() {
+export default function NewColumnForm({ boardId }: { boardId: string }) {
   const [isAddingColumn, setAddingColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { columns } = useBoard();
-  const dispatch = useBoardDispatch();
+  const dispatch = useKanbanDispatch();
+  const { boards } = useKanban();
 
   const error = !isUniqueColumnName(newColumnTitle)
     ? "This column name already exists"
@@ -33,7 +33,7 @@ export default function NewColumnForm() {
             placeholder="Enter a column name..."
             ref={inputRef}
             aria-invalid={error !== ""}
-            aria-described-by={error ? "column-name-error" : undefined}
+            aria-describedby={error ? "column-name-error" : undefined}
             className="bg-gray-500 p-1 rounded-md"
             value={newColumnTitle}
             onChange={(e) => setNewColumnTitle(e.target.value)}
@@ -77,9 +77,10 @@ export default function NewColumnForm() {
     if (error !== "") {
       return;
     }
-    // addColumn(newColumnTitle);
-    dispatch({ type: "ADD_COLUMN", payload: { title: newColumnTitle.trim() } });
-
+    dispatch({
+      type: "ADD_COLUMN",
+      payload: { boardId, columnTitle: newColumnTitle },
+    });
     setAddingColumn(false);
     setNewColumnTitle("");
   }
@@ -90,7 +91,9 @@ export default function NewColumnForm() {
   }
 
   function isUniqueColumnName(name: string) {
-    const columnNames = columns.map((c) => c.title);
+    const board = boards.find((b) => b.id === boardId);
+    if (!board) throw new Error("no board found!");
+    const columnNames = board.columns.map((c) => c.title);
     return !columnNames.includes(name);
   }
 }

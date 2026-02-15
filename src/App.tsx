@@ -8,33 +8,22 @@ export default function App() {
       initialBoards={[
         {
           id: "1",
-          title: "life",
+          title: "Test",
           columns: [
             {
               id: "1",
-              title: "Todo",
-              cards: [{ id: "1", title: "Walk the dog", isComplete: false }],
+              title: "Test1",
+              cards: [{ id: "1", title: "testtext", isComplete: false }],
             },
-            { id: "2", title: "Doing", cards: [] },
-            { id: "3", title: "Done", cards: [] },
+            { id: "2", title: "Test2", cards: [] },
+            { id: "3", title: "Test3", cards: [] },
           ],
         },
       ]}
     >
       <div className="h-full w-full flex flex-col">
         <HeaderSection />
-        <Board
-          boardId={"1"}
-          initialColumns={[
-            {
-              id: "1",
-              title: "Todo",
-              cards: [{ id: "1", title: "Walk the dog", isComplete: false }],
-            },
-            { id: "2", title: "Doing", cards: [] },
-            { id: "3", title: "Done", cards: [] },
-          ]}
-        />
+        <Board boardId={"1"} />
       </div>
     </KanbanProvider>
   );

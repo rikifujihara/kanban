@@ -1,9 +1,18 @@
 import type { ColumnData } from "@/types/kanbanTypes";
 import Card from "@/components/Card";
 import NewCardForm from "@/components/NewCardForm";
+import useKanban from "@/hooks/useKanban";
 
-export default function Column({ column }: { column: ColumnData }) {
-  return (
+export default function Column({
+  column,
+  boardId,
+}: {
+  column: ColumnData;
+  boardId: string;
+}) {
+  const { boards } = useKanban();
+  const board = boards.find((b) => b.id === boardId);
+  return board ? (
     <div
       role="region"
       aria-label={column.title}
@@ -14,10 +23,13 @@ export default function Column({ column }: { column: ColumnData }) {
         <Card card={card} key={card.id} />
       ))}
       <NewCardForm
+        boardId={boardId}
         cards={column.cards}
         columnId={column.id}
         columnTitle={column.title}
       />
     </div>
+  ) : (
+    <div>Board not found!</div>
   );
 }
