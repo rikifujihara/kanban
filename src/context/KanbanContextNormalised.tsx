@@ -1,4 +1,4 @@
-import { type KanbanAction } from "@/reducers/kanbanReducer";
+import { type KanbanAction } from "@/reducers/kanbanReducerNormalised";
 import type { KanbanState } from "@/types/kanbanTypesNormalised";
 import { createContext } from "react";
 

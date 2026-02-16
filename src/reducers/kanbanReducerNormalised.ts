@@ -14,7 +14,7 @@ export type KanbanAction =
       payload: { boardId: string; columnName: string };
     };
 
-export default function kanbanReducer(
+export default function kanbanReducerNormalised(
   kanban: KanbanState,
   { type, payload }: KanbanAction,
 ): KanbanState {

@@ -45,7 +45,7 @@ export interface KanbanState {
   checklistItems: ChecklistItems;
 }
 
-export const kanban: KanbanState = {
+export const kanbanExampleData: KanbanState = {
   id: "id",
   boards: {
     byId: { 1: { id: "1", name: "life", columns: ["1"] } },
@@ -75,5 +75,25 @@ export const kanban: KanbanState = {
       },
     },
     allIds: ["1"],
+  },
+};
+
+export const emptyKanbanData: KanbanState = {
+  id: "id",
+  boards: {
+    byId: { "1": { id: "1", columns: [], name: "Life" } },
+    allIds: ["1"],
+  },
+  columns: {
+    byId: {},
+    allIds: [],
+  },
+  cards: {
+    byId: {},
+    allIds: [],
+  },
+  checklistItems: {
+    byId: {},
+    allIds: [],
   },
 };

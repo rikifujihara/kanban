@@ -2,21 +2,22 @@ import {
   KanbanContext,
   KanbanDispatchContext,
 } from "@/context/KanbanContextNormalised";
-import kanbanReducer from "@/reducers/kanbanReducer";
-import type { BoardData } from "@/types/kanbanTypes";
+import kanbanReducerNormalised from "@/reducers/kanbanReducerNormalised";
+import {
+  emptyKanbanData,
+  type KanbanState,
+} from "@/types/kanbanTypesNormalised";
 import { useReducer } from "react";
 
 export default function KanbanProvider({
-  initialBoards = [],
+  initialState = emptyKanbanData,
   children,
 }: {
-  initialBoards?: BoardData[];
+  initialState?: KanbanState;
   children: React.ReactNode;
 }) {
-  const [kanban, dispatch] = useReducer(kanbanReducer, {
-    id: "1",
-    boards: initialBoards,
-  });
+  const [kanban, dispatch] = useReducer(kanbanReducerNormalised, initialState);
+
   return (
     <KanbanContext value={kanban}>
       <KanbanDispatchContext value={dispatch}>{children}</KanbanDispatchContext>
