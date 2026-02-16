@@ -85,6 +85,7 @@ export default function kanbanReducer(
       };
     }
     case "DELETE_CARD": {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [payload.cardId]: _, ...remainingCards } = kanban.cards.byId;
       return {
         ...kanban,
