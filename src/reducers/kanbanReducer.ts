@@ -12,6 +12,10 @@ export type KanbanAction =
   | {
       type: "UPDATE_CARD";
       payload: { card: CardData };
+    }
+  | {
+      type: "DELETE_CARD";
+      payload: { cardId: string };
     };
 
 export default function kanbanReducer(
@@ -77,6 +81,16 @@ export default function kanbanReducer(
         cards: {
           ...kanban.cards,
           byId: { ...kanban.cards.byId, [payload.card.id]: payload.card },
+        },
+      };
+    }
+    case "DELETE_CARD": {
+      const { [payload.cardId]: _, ...remainingCards } = kanban.cards.byId;
+      return {
+        ...kanban,
+        cards: {
+          ...kanban.cards,
+          byId: remainingCards,
         },
       };
     }
