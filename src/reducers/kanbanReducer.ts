@@ -8,9 +8,13 @@ export type KanbanAction =
   | {
       type: "ADD_COLUMN";
       payload: { boardId: string; columnName: string };
+    }
+  | {
+      type: "UPDATE_CARD";
+      payload: { card: CardData };
     };
 
-export default function kanbanReducerNormalised(
+export default function kanbanReducer(
   kanban: KanbanState,
   { type, payload }: KanbanAction,
 ): KanbanState {
@@ -64,6 +68,15 @@ export default function kanbanReducerNormalised(
               columns: [...boards.byId[boardId].columns, id],
             },
           },
+        },
+      };
+    }
+    case "UPDATE_CARD": {
+      return {
+        ...kanban,
+        cards: {
+          ...kanban.cards,
+          byId: { ...kanban.cards.byId, [payload.card.id]: payload.card },
         },
       };
     }
