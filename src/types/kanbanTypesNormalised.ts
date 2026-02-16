@@ -37,7 +37,7 @@ type Cards = NormalizedEntity<CardData>;
 type Columns = NormalizedEntity<ColumnData>;
 type Boards = NormalizedEntity<BoardData>;
 
-export interface KanbanEntity {
+export interface KanbanState {
   id: string;
   boards: Boards;
   columns: Columns;
@@ -45,7 +45,7 @@ export interface KanbanEntity {
   checklistItems: ChecklistItems;
 }
 
-export const kanban: KanbanEntity = {
+export const kanban: KanbanState = {
   id: "id",
   boards: {
     byId: { 1: { id: "1", name: "life", columns: ["1"] } },
