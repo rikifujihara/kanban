@@ -1,24 +1,17 @@
 import { Plus } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "@/components/Button";
-import type { CardData } from "@/types/kanbanTypes";
-import useKanbanDispatch from "@/hooks/useKanbanDispatch";
+import useKanbanDispatchNormalised from "@/hooks/useKanbanDispatchNormalised";
+import useKanbanNormalised from "@/hooks/useKanbanNormalised";
 
-export default function NewCardForm({
-  cards,
-  columnTitle,
-  columnId,
-  boardId,
-}: {
-  columnTitle: string;
-  columnId: string;
-  boardId: string;
-  cards: CardData[];
-}) {
+export default function NewCardForm({ columnId }: { columnId: string }) {
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
 
-  const dispatch = useKanbanDispatch();
+  const dispatch = useKanbanDispatchNormalised();
+  const { columns, cards } = useKanbanNormalised();
+  const column = columns.byId[columnId];
+  const cardNames = column.cards.map((id) => cards.byId[id].name);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -36,12 +29,12 @@ export default function NewCardForm({
     <>
       {isAddingCard ? (
         <form onSubmit={handleSubmit}>
-          <label className="sr-only" htmlFor={`new-card-name-${columnTitle}`}>
+          <label className="sr-only" htmlFor={`new-card-name-${column.name}`}>
             Card name
           </label>
           <input
             ref={inputRef}
-            id={`new-card-name-${columnTitle}`}
+            id={`new-card-name-${column.name}`}
             type="text"
             value={cardTitle}
             onChange={(e) => setCardTitle(e.target.value)}
@@ -82,13 +75,15 @@ export default function NewCardForm({
       return;
     }
 
-    dispatch({ type: "ADD_CARD", payload: { boardId, cardTitle, columnId } });
+    dispatch({
+      type: "ADD_CARD",
+      payload: { cardName: cardTitle, columnId },
+    });
     setIsAddingCard(false);
     setCardTitle("");
   }
 
   function isCardNameUnique(name: string) {
-    const cardNames = cards.map((c) => c.title);
     return !cardNames.includes(name);
   }
 }

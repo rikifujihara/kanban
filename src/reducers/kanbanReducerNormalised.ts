@@ -7,7 +7,7 @@ import type {
 export type KanbanAction =
   | {
       type: "ADD_CARD";
-      payload: { boardId: string; columnId: string; cardName: string };
+      payload: { columnId: string; cardName: string };
     }
   | {
       type: "ADD_COLUMN";

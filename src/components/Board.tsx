@@ -1,15 +1,13 @@
 import Column from "@/components/Column";
 import NewColumnForm from "@/components/NewColumnForm";
-import useKanban from "@/hooks/useKanban";
+import useKanbanNormalised from "@/hooks/useKanbanNormalised";
 
 export default function Board({ boardId }: { boardId: string }) {
-  const { boards } = useKanban();
-  const board = boards.find((b) => b.id === boardId);
-
+  const board = useKanbanNormalised().boards.byId[boardId];
   return board ? (
     <div className="flex gap-2 items-start p-2 overflow-x-auto h-full">
-      {board.columns.map((column) => (
-        <Column key={column.id} column={column} boardId={board.id} />
+      {board.columns.map((columnId) => (
+        <Column key={columnId} columnId={columnId} />
       ))}
       <NewColumnForm boardId={board.id} />
     </div>

@@ -1,18 +1,20 @@
 import { Plus, X } from "lucide-react";
 import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
-import useKanbanDispatch from "@/hooks/useKanbanDispatch";
-import useKanban from "@/hooks/useKanban";
+import useKanbanDispatchNormalised from "@/hooks/useKanbanDispatchNormalised";
+import useKanbanNormalised from "@/hooks/useKanbanNormalised";
 
 export default function NewColumnForm({ boardId }: { boardId: string }) {
   const [isAddingColumn, setAddingColumn] = useState(false);
-  const [newColumnTitle, setNewColumnTitle] = useState("");
+  const [newColumnName, setNewColumnTitle] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const dispatch = useKanbanDispatch();
-  const { boards } = useKanban();
+  const dispatch = useKanbanDispatchNormalised();
+  const { columns, boards } = useKanbanNormalised();
+  const board = boards.byId[boardId];
+  const columnNames = board.columns.map((id) => columns.byId[id].name);
 
-  const error = !isUniqueColumnName(newColumnTitle)
+  const error = !isUniqueColumnName(newColumnName)
     ? "This column name already exists"
     : "";
 
@@ -35,7 +37,7 @@ export default function NewColumnForm({ boardId }: { boardId: string }) {
             aria-invalid={error !== ""}
             aria-describedby={error ? "column-name-error" : undefined}
             className="bg-gray-500 p-1 rounded-md"
-            value={newColumnTitle}
+            value={newColumnName}
             onChange={(e) => setNewColumnTitle(e.target.value)}
             id="column-name"
             type="text"
@@ -73,13 +75,13 @@ export default function NewColumnForm({ boardId }: { boardId: string }) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (newColumnTitle.trim() === "") return;
+    if (newColumnName.trim() === "") return;
     if (error !== "") {
       return;
     }
     dispatch({
       type: "ADD_COLUMN",
-      payload: { boardId, columnTitle: newColumnTitle },
+      payload: { boardId, columnName: newColumnName },
     });
     setAddingColumn(false);
     setNewColumnTitle("");
@@ -91,9 +93,6 @@ export default function NewColumnForm({ boardId }: { boardId: string }) {
   }
 
   function isUniqueColumnName(name: string) {
-    const board = boards.find((b) => b.id === boardId);
-    if (!board) throw new Error("no board found!");
-    const columnNames = board.columns.map((c) => c.title);
     return !columnNames.includes(name);
   }
 }
