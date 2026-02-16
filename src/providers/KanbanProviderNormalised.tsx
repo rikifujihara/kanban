@@ -1,12 +1,6 @@
-import {
-  KanbanContextNormalised,
-  KanbanDispatchContextNormalised,
-} from "@/context/KanbanContextNormalised";
+import { KanbanContext, KanbanDispatchContext } from "@/context/KanbanContext";
 import kanbanReducerNormalised from "@/reducers/kanbanReducerNormalised";
-import {
-  emptyKanbanData,
-  type KanbanState,
-} from "@/types/kanbanTypesNormalised";
+import { emptyKanbanData, type KanbanState } from "@/types/kanbanTypes";
 import { useReducer } from "react";
 
 export default function KanbanProviderNormalised({
@@ -19,10 +13,8 @@ export default function KanbanProviderNormalised({
   const [kanban, dispatch] = useReducer(kanbanReducerNormalised, initialState);
 
   return (
-    <KanbanContextNormalised value={kanban}>
-      <KanbanDispatchContextNormalised value={dispatch}>
-        {children}
-      </KanbanDispatchContextNormalised>
-    </KanbanContextNormalised>
+    <KanbanContext value={kanban}>
+      <KanbanDispatchContext value={dispatch}>{children}</KanbanDispatchContext>
+    </KanbanContext>
   );
 }

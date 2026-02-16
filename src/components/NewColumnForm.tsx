@@ -1,16 +1,16 @@
 import { Plus, X } from "lucide-react";
 import Button from "@/components/Button";
 import { useEffect, useRef, useState } from "react";
-import useKanbanDispatchNormalised from "@/hooks/useKanbanDispatchNormalised";
-import useKanbanNormalised from "@/hooks/useKanbanNormalised";
+import useKanbanDispatch from "@/hooks/useKanbanDispatch";
+import useKanban from "@/hooks/useKanban";
 
 export default function NewColumnForm({ boardId }: { boardId: string }) {
   const [isAddingColumn, setAddingColumn] = useState(false);
   const [newColumnName, setNewColumnTitle] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const dispatch = useKanbanDispatchNormalised();
-  const { columns, boards } = useKanbanNormalised();
+  const dispatch = useKanbanDispatch();
+  const { columns, boards } = useKanban();
   const board = boards.byId[boardId];
   const columnNames = board.columns.map((id) => columns.byId[id].name);
 

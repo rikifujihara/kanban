@@ -1,9 +1,9 @@
 import Card from "@/components/Card";
 import NewCardForm from "@/components/NewCardForm";
-import useKanbanNormalised from "@/hooks/useKanbanNormalised";
+import useKanban from "@/hooks/useKanban";
 
 export default function Column({ columnId }: { columnId: string }) {
-  const column = useKanbanNormalised().columns.byId[columnId];
+  const column = useKanban().columns.byId[columnId];
 
   return column ? (
     <div

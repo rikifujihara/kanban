@@ -1,27 +1,52 @@
+export interface ChecklistItemData {
+  id: string;
+  name: string;
+  isComplete: boolean;
+}
+
 export interface CardData {
   id: string;
-  title: string;
+  name: string;
   isComplete: boolean;
+  checklistItems: string[];
 }
 
 export interface ColumnData {
   id: string;
-  title: string;
-  cards: CardData[];
+  name: string;
+  cards: string[];
 }
 
 export interface BoardData {
   id: string;
-  title: string;
-  columns: ColumnData[];
+  name: string;
+  columns: string[];
 }
 
-export interface KanbanData {
+type ChecklistItems = {
+  byId: Record<string, ChecklistItemData>;
+  allIds: string[];
+};
+
+type NormalizedEntity<T> = {
+  allIds: string[];
+  byId: Record<string, T>;
+};
+
+type Cards = NormalizedEntity<CardData>;
+type Columns = NormalizedEntity<ColumnData>;
+type Boards = NormalizedEntity<BoardData>;
+
+export interface KanbanState {
   id: string;
-  boards: BoardData[];
+  boards: Boards;
+  columns: Columns;
+  cards: Cards;
+  checklistItems: ChecklistItems;
 }
 
-export const futureKanbanStateStructure = {
+export const kanbanExampleData: KanbanState = {
+  id: "id",
   boards: {
     byId: { 1: { id: "1", name: "life", columns: ["1"] } },
     allIds: ["1"],
@@ -47,9 +72,28 @@ export const futureKanbanStateStructure = {
         id: "1",
         name: "Get leash",
         isComplete: false,
-        checklistItems: ["1"],
       },
     },
     allIds: ["1"],
+  },
+};
+
+export const emptyKanbanData: KanbanState = {
+  id: "id",
+  boards: {
+    byId: { "1": { id: "1", columns: [], name: "Life" } },
+    allIds: ["1"],
+  },
+  columns: {
+    byId: {},
+    allIds: [],
+  },
+  cards: {
+    byId: {},
+    allIds: [],
+  },
+  checklistItems: {
+    byId: {},
+    allIds: [],
   },
 };

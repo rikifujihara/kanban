@@ -1,7 +1,7 @@
-import { type KanbanAction } from "@/reducers/kanbanReducer";
-import { type KanbanData } from "@/types/kanbanTypes";
+import { type KanbanAction } from "@/reducers/kanbanReducerNormalised";
+import type { KanbanState } from "@/types/kanbanTypes";
 import { createContext } from "react";
 
-export const KanbanContext = createContext<KanbanData | null>(null);
+export const KanbanContext = createContext<KanbanState | null>(null);
 export const KanbanDispatchContext =
   createContext<React.Dispatch<KanbanAction> | null>(null);

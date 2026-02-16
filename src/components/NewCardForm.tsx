@@ -1,15 +1,15 @@
 import { Plus } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Button from "@/components/Button";
-import useKanbanDispatchNormalised from "@/hooks/useKanbanDispatchNormalised";
-import useKanbanNormalised from "@/hooks/useKanbanNormalised";
+import useKanbanDispatch from "@/hooks/useKanbanDispatch";
+import useKanban from "@/hooks/useKanban";
 
 export default function NewCardForm({ columnId }: { columnId: string }) {
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
 
-  const dispatch = useKanbanDispatchNormalised();
-  const { columns, cards } = useKanbanNormalised();
+  const dispatch = useKanbanDispatch();
+  const { columns, cards } = useKanban();
   const column = columns.byId[columnId];
   const cardNames = column.cards.map((id) => cards.byId[id].name);
 

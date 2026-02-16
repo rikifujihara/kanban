@@ -1,8 +1,4 @@
-import type {
-  CardData,
-  ColumnData,
-  KanbanState,
-} from "@/types/kanbanTypesNormalised";
+import type { CardData, ColumnData, KanbanState } from "@/types/kanbanTypes";
 
 export type KanbanAction =
   | {
