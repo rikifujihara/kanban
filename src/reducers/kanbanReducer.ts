@@ -15,7 +15,7 @@ export type KanbanAction =
     }
   | {
       type: "DELETE_CARD";
-      payload: { cardId: string };
+      payload: { cardId: string; columnId: string };
     };
 
 export default function kanbanReducer(
@@ -85,15 +85,29 @@ export default function kanbanReducer(
       };
     }
     case "DELETE_CARD": {
+      // Placeholder variable is just for deconstruction
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [payload.cardId]: _, ...remainingCards } = kanban.cards.byId;
       return {
         ...kanban,
         cards: {
-          ...kanban.cards,
+          allIds: kanban.cards.allIds.filter((id) => id !== payload.cardId),
           byId: remainingCards,
         },
+        columns: {
+          ...kanban.columns,
+          byId: {
+            ...kanban.columns.byId,
+            [payload.columnId]: {
+              ...kanban.columns.byId[payload.columnId],
+              cards: kanban.columns.byId[payload.columnId].cards.filter(
+                (id) => id !== payload.cardId,
+              ),
+            },
+          },
+        },
       };
+      return kanban;
     }
   }
 }

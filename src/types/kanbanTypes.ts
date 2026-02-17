@@ -52,14 +52,14 @@ export const kanbanExampleData: KanbanState = {
     allIds: ["1"],
   },
   columns: {
-    byId: { 1: { id: "1", name: "Todo", cards: ["1"] } },
+    byId: { 1: { id: "1", name: "Todoodle", cards: ["1"] } },
     allIds: ["1"],
   },
   cards: {
     byId: {
       1: {
         id: "1",
-        name: "Walk dog",
+        name: "Walk noodle",
         isComplete: false,
         checklistItems: ["1"],
       },

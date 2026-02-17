@@ -28,7 +28,7 @@ test("Can delete a card via card modal", async () => {
     }),
   );
 
-  const actionsGroup = await screen.findByRole("group", {
+  const actionsGroup = screen.getByRole("group", {
     name: /card actions/i,
   });
 
@@ -40,8 +40,19 @@ test("Can delete a card via card modal", async () => {
   );
 
   // Confirm deletion
-  const confirmDialog = await screen.findByRole("alertdialog");
+  const confirmDialog = screen.getByRole("alertdialog");
 
+  expect(
+    screen.getByRole("button", {
+      name: /confirm/i,
+    }),
+  ).toBeInTheDocument();
+  console.log(
+    "confirm button:",
+    screen.getByRole("button", {
+      name: /confirm/i,
+    }).textContent,
+  );
   await user.click(
     within(confirmDialog).getByRole("button", {
       name: /confirm/i,
@@ -49,7 +60,7 @@ test("Can delete a card via card modal", async () => {
   );
 
   expect(
-    within(column).queryByRole("article", {
+    screen.queryByRole("article", {
       name: /walk the dog/i,
     }),
   ).not.toBeInTheDocument();

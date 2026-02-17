@@ -13,7 +13,7 @@ export default function Column({ columnId }: { columnId: string }) {
     >
       <h2>{column.name}</h2>
       {column.cards.map((cardId) => (
-        <Card cardId={cardId} key={cardId} />
+        <Card columnId={columnId} cardId={cardId} key={cardId} />
       ))}
       <NewCardForm columnId={column.id} />
     </div>
